@@ -8,14 +8,18 @@ import numpy as np
 
 df = pd.read_csv("job_family_role.csv")
 
+index_array = df[(df["count_id_indexed"] == '\\N')].get(['count_id_indexed'])
+
+
+
 # print(df.dtypes)
 # df.dropna(subset = ["job_family"], axis = 0, inplace = True)
 
 # df.dropna(subset = ["count_id_indexed"], axis = 0, inplace = True)
 
-df.drop(df[(df["count_id_indexed"] == '\\N')].index, inplace = True)
+# df.drop(df[(df["count_id_indexed"] == '\\N')].index, inplace = True)
 
-df["count_id_indexed"] = df["count_id_indexed"].astype("float")
+# df["count_id_indexed"] = df["count_id_indexed"].astype("float")
 
 # df[df.get("count_id_indexed") == "N"]
 
@@ -23,7 +27,8 @@ df["count_id_indexed"] = df["count_id_indexed"].astype("float")
 
 # df_grp_date = df.groupby('post_date').count()
 
-df_grp_date = df.groupby('post_date').mean()
+df_grp_date = df.groupby('post_date')['count_id_indexed'].mean().to_frame()
+#.get('count_id_indexed').mean()
 
 plot1 = df_grp_date.plot(kind = 'line', y = 'count_id_indexed')
 
@@ -36,6 +41,9 @@ plt.pyplot.show()
 # print(df.iloc[2].get('count_id_indexed').type)
 
 # print(df)
+
+
+
 
 
 
